@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title>Student Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="warning">
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>ID: {{student.studentId}}</ion-card-title>
+      <ion-card-title>Name: {{student.firstName}} , {{student.lastName}}</ion-card-title>
+      <ion-card-title><ion-icon color="tertiary" name="call-outline"></ion-icon> <b> : {{student.phoneNumber}}</b></ion-card-title>
+    </ion-card-header>
+   
+  </ion-card>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="tertiary">
+     <ion-button (click)="closeModal()" color="light" expand="full" fill="clear" shape="round">
+       Close
+     </ion-button>
+  </ion-toolbar>
+</ion-footer>

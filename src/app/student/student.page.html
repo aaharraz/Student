@@ -1,0 +1,158 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Students Hub</ion-title>
+
+      <ion-buttons slot="primary">
+        More Action
+        <ion-toggle slot="end" color="warning" [(ngModel)]="enableModify"></ion-toggle>
+      <ion-button (click)="openModal(false)">
+        <ion-icon slot="start" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+      <ion-col size-xs="6" size-sm="4" size="4">
+        <ion-list 
+        id="active"
+        #activeList="cdkDropList"
+        cdkDropList 
+        [cdkDropListData] = "studentsActive"
+        [cdkDropListConnectedTo]="[droppedList, delinquenList]"
+        (cdkDropListDropped)="dropEvent($event)"
+        >
+          <ion-list-header color="primary">
+            <ion-label><h2>Active</h2></ion-label>
+          </ion-list-header>
+          <ion-card color="light" *ngFor="let item of studentsActive;" cdkDrag>
+            <ion-card-header> 
+              <b>{{item.lastName}} , {{item.firstName}} 
+              <ion-badge color="success"> {{item.studentId}}</ion-badge> </b> 
+              : <ion-icon name="phone-portrait-outline"></ion-icon> {{item.phoneNumber | phone}}
+            </ion-card-header>
+            <ion-card-content *ngIf="enableModify">
+              <ion-buttons slot="end">
+                <ion-button color="light" fill="clear" size="small" color="success"  (click)="openModalDetail(item)">
+                  <ion-icon color="primary" slot="icon-only" name="open-outline"></ion-icon>
+                </ion-button>
+                <ion-button color="light" fill="clear" size="small" color="success"  (click)="openModal(true, item)">
+                  <ion-icon color="primary" slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+    
+                <ion-button shape="round" size="small" fill="clear" color="light"  (click)="deleteStudent(item.id)">
+                  <ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-card-content>
+          </ion-card>
+          
+        </ion-list>
+      </ion-col>
+      <ion-col size-xs="6"  size-sm="4" size="4">
+        <ion-list
+        cdkDropList 
+        id="delinquent"
+        #delinquenList="cdkDropList"
+        cdkDropList 
+        [cdkDropListData] = "studentsDelinquent"
+        [cdkDropListConnectedTo]="[activeList, droppedList]"
+        (cdkDropListDropped)="dropEvent($event)">
+          <ion-list-header color="warning">
+            <ion-label>Delinquent</ion-label>
+          </ion-list-header>
+        <ion-card color="light" *ngFor="let item of studentsDelinquent" cdkDrag>
+          <ion-card-header> 
+            <b>{{item.lastName}} , {{item.firstName}} 
+            <ion-badge color="success"> {{item.studentId}}</ion-badge> </b> 
+            : <ion-icon name="phone-portrait-outline"></ion-icon> {{item.phoneNumber | phone}}
+          </ion-card-header>
+          <ion-card-content *ngIf="enableModify">
+            <ion-buttons slot="end">
+              <ion-button color="light" fill="clear" size="small" color="success"  (click)="openModalDetail(item)">
+                <ion-icon color="primary" slot="icon-only" name="open-outline"></ion-icon>
+              </ion-button>
+              <ion-button color="light" fill="clear" size="small" color="success"  (click)="openModal(true, item)">
+                <ion-icon color="primary" slot="icon-only" name="create"></ion-icon>
+              </ion-button>
+  
+              <ion-button shape="round" size="small" fill="clear" color="light"  (click)="deleteStudent(item.id)">
+                <ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+      </ion-col>
+      <ion-col size-xs="6"  size-sm="4" size="4">
+        <ion-list 
+        id="dropped"
+        cdkDropList 
+        #droppedList="cdkDropList"
+        cdkDropList 
+        [cdkDropListData] = "studentsDroped"
+        [cdkDropListConnectedTo]="[activeList, delinquenList]"
+        (cdkDropListDropped)="dropEvent($event)">
+          <ion-list-header color="danger">
+            <ion-label>Dropped</ion-label>
+          </ion-list-header>
+        <ion-card color="light" *ngFor="let item of studentsDroped" cdkDrag>
+          <ion-card-header> 
+            <b>{{item.lastName}} , {{item.firstName}} 
+            <ion-badge color="success"> {{item.studentId}}</ion-badge> </b> 
+            : <ion-icon name="phone-portrait-outline"></ion-icon> {{item.phoneNumber | phone}}
+          </ion-card-header>
+          <ion-card-content *ngIf="enableModify">
+            <ion-buttons slot="end">
+              <ion-button color="light" fill="clear" size="small" color="success"  (click)="openModalDetail(item)">
+                <ion-icon color="primary" slot="icon-only" name="open-outline"></ion-icon>
+              </ion-button>
+              <ion-button color="light" fill="clear" size="small" color="success"  (click)="openModal(true, item)">
+                <ion-icon color="primary" slot="icon-only" name="create"></ion-icon>
+              </ion-button>
+  
+              <ion-button shape="round" size="small" fill="clear" color="light"  (click)="deleteStudent(item.id)">
+                <ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-card-content>
+        </ion-card>
+     
+      </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="openModal(false)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+</ion-content>
+
+
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-button  (click)="prevPage()"  shape="round">
+      Prev
+    </ion-button>
+    <ion-button  (click)="nextPage()"  shape="round">
+      Next
+    </ion-button>
+    <ion-button  (click)="showAll()"  shape="round">
+      All
+    </ion-button>
+  <ion-input  
+  color="light" 
+  size="large" 
+  slot="end" 
+  (change)="getNewPageSizeData()"  
+  style="width: 10px;" 
+  type="number" 
+  [(ngModel)] = "pageSize">
+</ion-input>
+
+  </ion-toolbar>
+</ion-footer>
